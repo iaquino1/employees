@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('employee.index');
+});
+
+Route::get('/create', function () {
+    return view('employee.create');
 });
