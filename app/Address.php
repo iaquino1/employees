@@ -12,7 +12,7 @@ class Address extends Model
         'postal_code_id'
     ];
 
-    public function user()
+    public function employee()
     {
         return $this->hasOne('App\Employee');
     }
