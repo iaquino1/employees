@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 
         $employee = Employee::with('address.postal_code')->with('employee_skill.skill')->get();
 
-        return view('employee.index', compact('employee'));
+        return $employee;
     }
 
     /**
