@@ -11,8 +11,6 @@ use App\Skill;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Validator;
-use function Sodium\add;
 
 class EmployeeController extends Controller
 {
@@ -52,13 +50,17 @@ class EmployeeController extends Controller
 
         try {
 
-            $postalCode = new PostalCode();
-            $postalCode->postal_code = $request->postal_code;
-            $postalCode->municipality = $request->municipality;
-            $postalCode->colony = $request->colony;
-            $postalCode->state = $request->state;
-            $postalCode->country = $request->country;
-            $postalCode->save();
+            $postalCode = PostalCode::where('postal_code', $request->postal_code)->first();
+
+            if (empty($postalCode)) {
+                $postalCode = new PostalCode();
+                $postalCode->postal_code = $request->postal_code;
+                $postalCode->municipality = $request->municipality;
+                $postalCode->colony = $request->colony;
+                $postalCode->state = $request->state;
+                $postalCode->country = $request->country;
+                $postalCode->save();
+            }
 
             $address = new Address();
             $address->street = $request->street;
@@ -76,9 +78,14 @@ class EmployeeController extends Controller
             $employee->save();
 
             foreach ($request->skillNames as $skillName) {
-                $skill = new Skill();
-                $skill->skill = $skillName;
-                $skill->save();
+
+                $skill = Skill::where('skill', $skillName)->first();
+
+                if (empty($skill)) {
+                    $skill = new Skill();
+                    $skill->skill = $skillName;
+                    $skill->save();
+                }
 
                 $employeeSkill = new EmployeeSkill();
                 $employeeSkill->skill_id = $skill->id;
