@@ -33,7 +33,7 @@ class StoreEmployee extends FormRequest
             'number' => 'required',
             'name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:employees',
             'job' => 'required',
             'birthday' => 'required|date',
         ];
