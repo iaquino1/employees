@@ -81,11 +81,11 @@ class EmployeeController extends Controller
 
             foreach ($validated['skillNames'] as $skillName) {
 
-                $skill = Skill::where('skill', $skillName)->first();
+                $skill = Skill::where('skill', $skillName['skill'])->first();
 
                 if (empty($skill)) {
                     $skill = new Skill();
-                    $skill->skill = $skillName;
+                    $skill->skill = $skillName['skill'];
                     $skill->save();
                 }
 
