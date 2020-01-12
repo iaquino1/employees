@@ -36,6 +36,7 @@ class StoreEmployee extends FormRequest
             'email' => 'required|email|unique:employees',
             'job' => 'required',
             'birthday' => 'required|date',
+            'skillNames.*' => 'required',
         ];
     }
 }

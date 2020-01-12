@@ -46,38 +46,40 @@ class EmployeeController extends Controller
     public function store(StoreEmployee $request)
     {
 
+        $validated = $request->validated();
+
         DB::beginTransaction();
 
         try {
 
-            $postalCode = PostalCode::where('postal_code', $request->postal_code)->first();
+            $postalCode = PostalCode::where('postal_code', $validated['postal_code'])->first();
 
             if (empty($postalCode)) {
                 $postalCode = new PostalCode();
-                $postalCode->postal_code = $request->postal_code;
-                $postalCode->municipality = $request->municipality;
-                $postalCode->colony = $request->colony;
-                $postalCode->state = $request->state;
-                $postalCode->country = $request->country;
+                $postalCode->postal_code = $validated['postal_code'];
+                $postalCode->municipality = $validated['municipality'];
+                $postalCode->colony = $validated['colony'];
+                $postalCode->state = $validated['state'];
+                $postalCode->country = $validated['country'];
                 $postalCode->save();
             }
 
             $address = new Address();
-            $address->street = $request->street;
-            $address->number = $request->number;
+            $address->street = $validated['street'];
+            $address->number = $validated['number'];
             $address->postal_code_id = $postalCode->id;
             $address->save();
 
             $employee = new Employee();
-            $employee->name = $request->name;
-            $employee->last_name = $request->last_name;
-            $employee->email = $request->email;
-            $employee->job = $request->job;
-            $employee->birthday = $request->birthday;
+            $employee->name = $validated['name'];
+            $employee->last_name = $validated['last_name'];
+            $employee->email = $validated['email'];
+            $employee->job = $validated['job'];
+            $employee->birthday = $validated['birthday'];
             $employee->address_id = $address->id;
             $employee->save();
 
-            foreach ($request->skillNames as $skillName) {
+            foreach ($validated['skillNames'] as $skillName) {
 
                 $skill = Skill::where('skill', $skillName)->first();
 
