@@ -5,8 +5,13 @@
  */
 
 require('./bootstrap');
+import Vue from 'vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-window.Vue = require('vue');
+Vue.use(BootstrapVue);
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import store from './store/index'
 
@@ -21,8 +26,8 @@ import store from './store/index'
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('employees', require('./components/Employees.vue').default)
-Vue.component('createEmployee', require('./components/CreateEmployee.vue').default)
+Vue.component('employees', require('./components/Employees.vue').default);
+Vue.component('createEmployee', require('./components/CreateEmployee.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
